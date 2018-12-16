@@ -1,0 +1,18 @@
+---
+- hosts: all
+  name: Upgrade all hosts
+  become: true
+  tasks:
+    - name: Upgrade all Debian-based hosts
+      apt:
+        name: "*"
+        state: latest
+        update_cache: yes
+        force_apt_get: yes
+      when: ansible_os_family == "Debian"
+    - name: Upgrade all Arch-based hosts
+      pacman:
+        update_cache: yes
+        upgrade: yes
+      when: ansible_os_family == "Archlinux"
+
